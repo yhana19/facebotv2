@@ -1,6 +1,6 @@
-async def uid(bot, **event):
-  tid = event.get('thread_id')
-  sender = event.get('author_id')
+async def uid(bot, data):
+  tid = data.thread_id
+  sender = data.author_id
   
   await bot.shareContact(f"UID: {sender}", sender, tid)
 
