@@ -4,7 +4,7 @@ async def flux(bot, event):
   if not event.args:
     return await event.sendReply(event.font(":mono[Provide an image prompt.]"))
   try:
-    nigro = await event.sendReply(event.font(":mono[Uploading image, please wait.]"))
+    nigro = await event.sendReply(event.font(":mono[Generating image, please wait.]"))
     await bot.sendRemoteFiles(
       [f"https://api.joshweb.click/api/flux?prompt={event.args}&model=4"],
       thread_id=event.thread_id,

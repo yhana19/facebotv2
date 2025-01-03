@@ -1,6 +1,7 @@
 import re
 import requests
 
+# https://imgen.duck.mom/prompt/dogs+in+galaxy
 
 def font(type, text):
   real = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
