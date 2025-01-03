@@ -33,13 +33,14 @@ async def main():
   if await bot.isLoggedIn():
     fetch_bot = await bot.fetchUserInfo(bot.uid)
     bot_info = fetch_bot[bot.uid]
-    bot.BOT(await loadConfig(bot_info.name))
+    kol = await loadConfig(bot_info.name)
+    bot.BOT(kol)
     print(f"\033[97m⦿━━━━━━━━━━━━━━━⦿ \033[96mFACEBOT \033[97m⦿━━━━━━━━━━━━━━━⦿")
     print(f"\033[32m[BOT] \033[0m{bot_info.name} is now logged in")
   try:
     await bot.listen()
   except Exception as e:
-    print(e)
+    print("ERROR: ", e)
 
 if __name__ == '__main__':
   asyncio.run(main())
