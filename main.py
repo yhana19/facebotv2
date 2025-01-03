@@ -2,14 +2,17 @@ import asyncio
 import json
 from fbchat_muqit import Client, Message, ThreadType, State
 from handler.loadConfig import loadConfig
+from handler.loadEvents import loadEvents
 from handler.loadCommands import loadCommands
 from handler.messageHandler import handleMessage
-
+from handler.eventHandler import handleEvent
 config = json.load(open('config.json', 'r'))
 
 class Greeg(Client):
   def BOT(self, data):
-    self.commands = loadCommands()
+    self.commands = loadCommands() # dict
+    self.events = loadEvents() # list
+    
     self.prefix = data['prefix']
     self.botName = data['botName']
     self.owner = data['owner']
@@ -18,16 +21,21 @@ class Greeg(Client):
   async def onListening(self):
     print("\033[96m[BOT] \033[0mListening...")
   
-  """MESSAGE"""
+  async def __botEvent(self, event, **data):
+    asyncio.create_task(handleEvent(self, event, **data))
   async def __messaging(self, mid, author_id, message, message_object, thread_id, thread_type, **kwargs):
     if author_id != self.uid:
+      await self.__botEvent('type:message', mid=mid,author_id=author_id,message=message,message_object=message_object,thread_id=thread_id,thread_type=thread_type,**kwargs)
       asyncio.create_task(handleMessage(self,mid,author_id,message,message_object,thread_id,thread_type,**kwargs))
-  async def onReply(self, mid, author_id, message, message_object, thread_id,
-  thread_type, **kwargs):
+  
+  """MESSAGE EVENTS"""
+  async def onReply(self, mid, author_id, message, message_object, thread_id,thread_type, **kwargs):
     await self.__messaging(mid, author_id, message, message_object, thread_id,  thread_type, **kwargs)
   async def onMessage(self,mid,author_id,message,message_object,thread_id,thread_type,**kwargs):
     await self.__messaging(mid, author_id, message, message_object, thread_id,  thread_type, **kwargs)
-
+  
+  """OTHER EVENTS"""
+  
   
 async def main():
   cookies_path = "fbstate.json"
