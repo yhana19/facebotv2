@@ -43,7 +43,7 @@ async def handleMessage(bot,mid,author_id,message,message_object,thread_id,threa
       thread_type = thread_type
     )
     is_need_prefix = function.get('usePrefix', True)
-    if bot.prefix == '' or (not is_need_prefix and cmd.startswith(bot.prefix)) or (is_need_prefix and cmd.startswith(bot.prefix)) or (not is_need_prefix and not cmd.startswith(bot.prefix)):
-      return await function['def'](bot, message_data)
+    if bot.prefix != '' and is_need_prefix and not cmd.startswith(bot.prefix):
+      return await bot.sendMessage(text_formatter(":mono[This command require to use prefix]"), thread_id, thread_type)
     else:
-      return await bot.sendMessage(text_formatter(":mono[This command does not need to use prefix]"), thread_id, thread_type)
+      return await function['def'](bot, message_data)

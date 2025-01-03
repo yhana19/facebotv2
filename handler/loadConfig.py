@@ -26,15 +26,17 @@ async def loadConfig(botName=None):
     prefix = ''
   elif ' ' in list(prefix):
     prefix = ''
-    print("\033[0;36m[CONFIG] \033[0mPrefix loaded")
+    print("\033[0;31m[CONFIG] \033[0mPrefix must not include space")
+  else:
+    print(f"\033[0;36m[CONFIG] \033[0mPrefix loaded    : \033[1;97m{prefix}")
   
   botName = config.get('botName', data['botName'])
-  print("\033[0;36m[CONFIG] \033[0mBot name loaded")
+  print(f"\033[0;36m[CONFIG] \033[0mBot name loaded  : \033[1;97m{botName}")
   owner = config.get("owner", data['owner'])
-  print("\033[0;36m[CONFIG] \033[0mBot owner loaded")
+  print(f"\033[0;36m[CONFIG] \033[0mBot owner loaded : \033[1;97m{owner}")
   _admin = config.get("admin", data['admin'])
   admin = [str(ad) for ad in _admin if isinstance(ad, int) or isinstance(ad, str)]
-  print("\033[0;36m[CONFIG] \033[0mBot admin loaded\n")
+  print(f"\033[0;36m[CONFIG] \033[0mBot admin loaded : \033[1;97m{len(admin)}")
   
   data['prefix'] = prefix
   data['botName'] = botName

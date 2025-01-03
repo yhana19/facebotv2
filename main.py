@@ -4,6 +4,7 @@ from fbchat_muqit import Client, Message, ThreadType, State
 from handler.loadConfig import loadConfig
 from handler.loadCommands import loadCommands
 from handler.messageHandler import handleMessage
+
 config = json.load(open('config.json', 'r'))
 
 class Greeg(Client):
@@ -20,8 +21,9 @@ class Greeg(Client):
   """MESSAGE"""
   async def __messaging(self, mid, author_id, message, message_object, thread_id, thread_type, **kwargs):
     if author_id != self.uid:
-      await handleMessage(self,mid,author_id,message,message_object,thread_id,thread_type,**kwargs)
-  async def onReply(self, mid, author_id, message, message_object, thread_id,  thread_type, **kwargs):
+      asyncio.create_task(handleMessage(self,mid,author_id,message,message_object,thread_id,thread_type,**kwargs))
+  async def onReply(self, mid, author_id, message, message_object, thread_id,
+  thread_type, **kwargs):
     await self.__messaging(mid, author_id, message, message_object, thread_id,  thread_type, **kwargs)
   async def onMessage(self,mid,author_id,message,message_object,thread_id,thread_type,**kwargs):
     await self.__messaging(mid, author_id, message, message_object, thread_id,  thread_type, **kwargs)
