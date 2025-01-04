@@ -26,24 +26,27 @@ class MessageData:
     return await self.bot.sendMessage(message, self.thread_id, self.thread_type, mentions=mentions)
 
 async def handleMessage(bot,mid,author_id,message,message_object,thread_id,thread_type,**kwargs):
-  _split = message.split(' ',1)
-  cmd, args = _split if len(_split) != 1 else [_split[0],'']
-  cnp = cmd if bot.prefix == "" or not cmd.startswith(bot.prefix) else cmd[1:];cnp = cnp.lower()
-  if cnp in bot.commands:
-    function = bot.commands[cnp]
-    message_data = MessageData(
-      cmd = cnp,
-      args = args,
-      mid = mid,
-      client = bot,
-      author_id = author_id,
-      message = message,
-      message_object = message_object,
-      thread_id = thread_id,
-      thread_type = thread_type
-    )
-    is_need_prefix = function.get('usePrefix', True)
-    if bot.prefix != '' and is_need_prefix and not cmd.startswith(bot.prefix):
-      return await bot.sendMessage(text_formatter(":mono[This command require to use prefix]"), thread_id, thread_type)
-    else:
-      return await function['def'](bot, message_data)
+  try:
+    _split = message.split(' ',1) if message else ['']
+    cmd, args = _split if len(_split) != 1 else [_split[0],'']
+    cnp = cmd if bot.prefix == "" or not cmd.startswith(bot.prefix) else cmd[1:];cnp = cnp.lower()
+    if cnp in bot.commands:
+      function = bot.commands[cnp]
+      message_data = MessageData(
+        cmd = cnp,
+        args = args,
+        mid = mid,
+        client = bot,
+        author_id = author_id,
+        message = message,
+        message_object = message_object,
+        thread_id = thread_id,
+        thread_type = thread_type
+      )
+      is_need_prefix = function.get('usePrefix', True)
+      if bot.prefix != '' and is_need_prefix and not cmd.startswith(bot.prefix):
+        return await bot.sendMessage(text_formatter(":mono[This command require to use prefix]"), thread_id, thread_type)
+      else:
+        return await function['def'](bot, message_data)
+  except Exception as err:
+    print("\033[0;91m[ERROR] \033[0m{}".format(err))

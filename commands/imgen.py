@@ -1,12 +1,12 @@
 import requests
 
-async def flux(bot, event):
+async def ImageGen(bot, event):
   if not event.args:
     return await event.sendReply(event.font(":mono[Provide an image prompt.]"))
   try:
     nigro = await event.sendReply(event.font(":mono[Generating image, please wait.]"))
     await bot.sendRemoteFiles(
-      [f"https://api.joshweb.click/api/flux?prompt={event.args}&model=4"],
+      [f"https://imgen.duck.mom/prompt/{event.args.replace(' ','+')}"],
       thread_id=event.thread_id,
       thread_type=event.thread_type
     )
@@ -16,10 +16,10 @@ async def flux(bot, event):
     return await event.sendReply(event.font(":mono[An error occurred while generating the image.]"))
 
 config = {
-  "name": 'flux',
-  "def": flux,
-  "description": "Generate an image using Flux Realism API.",
-  "usage": "{p}flux [prompt]",
-  "author": 'ako SI choru',
+  "name": 'imgen',
+  "def": ImageGen,
+  "description": "Generate an image",
+  "usage": "{p}imgen [prompt]",
+  "author": 'Muhammad Greegmon',
   "usePrefix": False
 }
