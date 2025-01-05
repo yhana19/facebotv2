@@ -11,10 +11,18 @@ async def function(bot, event):
       await bot.unsend(loading)
       return await event.sendReply(event.font(f":mono[{data['error']}]"))
     message = f":bold[user]: {data['username']}\n"
+    message += f":bold[views]: {data['views']}\n"
+    message += f":bold[shares]: {data['shares']}\n"
+    message += f":bold[comments]: {data['comments']}\n"
+    message += f":bold[music]: {data['music']}\n"
+    message += f"{event.line}\n"
     message += f":mono[{data['description']}]"
     video = data['videoSource']
-    await bot.sendRemoteFiles(
-      video,
+    with open('commands/cache/shoti.mp4', 'wb') as file:
+      video_data = requests.get(video).content
+      file.write(video_data)
+    await bot.sendLocalFiles(
+      "commands/cache/shoti.mp4",
       event.font(message),
       thread_id = event.thread_id,
       thread_type = event.thread_type
@@ -25,11 +33,11 @@ async def function(bot, event):
     await event.sendReply(event.font(f":mono[{e}]"))
 
 
-# config = {
-#   "name": 'shoti',
-#   "def": function,
-#   "author": "Muhammad Greeg",
-#   "usage": '{p}shoti',
-#   "description": 'Fetch a random shoti video',
-#   "usePrefix": False
-# }
+config = {
+  "name": 'shoti',
+  "def": function,
+  "author": "Muhammad Greeg",
+  "usage": '{p}shoti',
+  "description": 'Fetch a random shoti video',
+  "usePrefix": False
+}

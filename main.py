@@ -25,6 +25,7 @@ class Greeg(Client):
   
   async def onListening(self):
     print("\033[96m[BOT] \033[0mListening...")
+    print()
   
   async def __botEvent(self, event, **data):
     asyncio.create_task(handleEvent(self, event.lower(), **data))
