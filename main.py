@@ -15,7 +15,7 @@ config = json.load(open('config.json', 'r'))
 
 class Greeg(Client):
   def BOT(self, data):
-    self.commands = loadCommands() # dict
+    self.commands = loadCommands(data['prefix']) # dict
     self.events = loadEvents() # list
     
     self.prefix = data['prefix']

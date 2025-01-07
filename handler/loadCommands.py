@@ -4,7 +4,7 @@ import importlib
 commands = {}
 
 # ━━━━━━━━━━━━━━━ ⦿
-def loadCommands():
+def loadCommands(_prefix):
   global commands
   if commands:
     return commands
@@ -18,19 +18,21 @@ def loadCommands():
       name = config.get('name')
       function = config.get('def')
       if not name:
-        print(f"\033[0;93m({file}) \033[1;97mCOMMAND NOT LOADED - \033[0;31mMissing command name")
+        print(f"\033[91m[COMMAND]\033[0m({file}) NOT LOADED - \033[0;31mMissing command name")
       elif not function:
-        print(f"\033[0;93m({file}) \033[1;97mCOMMAND NOT LOADED - \033[0;31mMissing command function")
+        print(f"\033[91m[COMMAND]\033[0m({file}) NOT LOADED - \033[0;31mMissing command function")
       else:
         usePrefix = config.get('usePrefix', True)
         if not name.isalnum():
-          print(f"\033[0;93m({file}) \033[1;97mCOMMAND NOT LOADED - \033[0;31mInvalid command name")
+          print(f"\033[91m[COMMAND]\033[0m({file}) NOT LOADED - \033[0;31mInvalid command name")
         elif name.lower() in commands:
-          print(f"\033[0;93m({file}) \033[1;97mCOMMAND NOT LOADED - \033[0;31mCommand name already exist")
+          print(f"\033[91m[COMMAND]\033[0m({file}) NOT LOADED - \033[0;31mCommand name already exist")
         elif usePrefix not in [True, False]:
-          print(f"\033[0;93m({file}) \033[1;97mCOMMAND NOT LOADED - \033[0;31mInvalid usePrefix value")
+          print(f"\033[91m[COMMAND]\033[0m({file}) NOT LOADED - \033[0;31mInvalid usePrefix value")
         else:
+          config["usage"] = config.get("usage", "").replace('{p}', _prefix)
+          config["description"] = config.get("description", 'No description.').replace('{p}', _prefix)
           commands[name.lower()] = config
-          print(f"\033[1;97mCOMMAND LOADED: \033[0;93m{name} \033[0m- \033[35m({file})\033[0m")
+          print(f"\033[96m[COMMAND] \033[0mLOADED \033[0;93m{name} \033[0m- \033[35m({file})\033[0m")
   print()
   return commands
