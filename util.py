@@ -40,7 +40,7 @@ def upload_imgbb(data):
   KEY = "e58feb5f42f2cc77afd40a42e5f9747c"
   base_url = "https://api.imgbb.com/1/upload"
   params = {
-    "name": 'sitebot',
+    "name": 'greegmon',
     "key": KEY,
     "expiration": 1512000 # 25 weeks, remove this to set no expiration
   }
