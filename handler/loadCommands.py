@@ -30,11 +30,11 @@ def loadCommands(_prefix):
         elif usePrefix not in [True, False]:
           print(f"\033[91m[COMMAND]\033[0m({file}) NOT LOADED - \033[0;31mInvalid usePrefix value")
         else:
-          # 0 - all user
-          # 1 - thread admin (includin bot admin)
-          # 2 - only bot's admin
-          permission = config.get('permission', 0)
-          config['permission'] = permission if permission in [0,1,2] else 0
+          admin_only = config.get('admin_only', False)
+          if not admin_only in [True,False]:
+            admin_only = False
+            print(f"\033[0m   - Invalid 'admin_only' key in config, It will automatically set to False")
+          config['admin_only'] = admin_only if admin_only in [True, False] else False
           
           config["usage"] = config.get("usage", "").replace('{p}', _prefix)
           config["description"] = config.get("description", 'No description.').replace('{p}', _prefix)

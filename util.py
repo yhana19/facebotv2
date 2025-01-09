@@ -1,7 +1,7 @@
 import re
 import requests
 
-# https://imgen.duck.mom/prompt/dogs+in+galaxy
+user_agent = "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Mobile Safari/537.36"
 
 def font(type, text):
   real = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
@@ -64,3 +64,15 @@ def upload_imgbb(data):
   except Exception as e:
     print("\033[0;31mERROR: \033[0m", e)
     return {"error": 'Error while uploading the image'}
+
+# get the link uid
+def getUid(link):
+  if not link.startswith('https://') or 'facebook.com' not in link:
+    return {"error": 'Invalid link'}
+  res = requests.get(link)
+  if res.status_code == 200:
+    pattern = r'(?<=fb://profile/)\d+'
+    match = re.search(pattern, res.text)
+    if match:
+      return match.group(0)
+  return {"error": 'Couldn\'t get the user id'}

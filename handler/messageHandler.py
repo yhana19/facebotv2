@@ -18,7 +18,7 @@ class MessageData:
     self.thread_type = data.get('thread_type')
     self.reply = None
     
-    self.line = "━━━━━━━━━━━━━━━━━━━━━━━━"
+    self.line = "━━━━━━━━━━━━━━━━━━"
     self.font = text_formatter
     
     if self.message_object.replied_to:
@@ -45,8 +45,11 @@ async def handleMessage(bot,mid,author_id,message,message_object,thread_id,threa
         thread_type = thread_type
       )
       is_need_prefix = function.get('usePrefix', True)
+      is_admin_only = function.get('admin_only', False)
       if bot.prefix != '' and is_need_prefix and not cmd.startswith(bot.prefix):
         return await bot.sendMessage(text_formatter(":mono[This command require to use prefix]"), thread_id, thread_type)
+      elif is_admin_only and str(author_id) not in bot.admin:
+        return await bot.sendMessage(text_formatter(":mono[Only bot admins can use this command.]"), thread_id, thread_type)
       else:
         return await function['def'](bot, message_data)
   except Exception as err:

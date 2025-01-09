@@ -22,7 +22,11 @@ class Greeg(Client):
     self.botName = data['botName']
     self.owner = data['owner']
     self.admin = data['admin']
-  
+    
+    self.thread_user = ThreadType.USER
+    self.thread_group = ThreadType.GROUP
+  def error(self, message):
+    print(f"\033[0;91m[ERROR] \033[0m{message}")
   async def onListening(self):
     print("\033[96m[BOT] \033[0mListening...")
     print()
