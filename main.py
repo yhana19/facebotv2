@@ -24,9 +24,6 @@ class Greeg(Client):
     self.botName = data['botName']
     self.owner = data['owner']
     self.admin = data['admin']
-    # Thread Type
-    self.thread_user = ThreadType.USER
-    self.thread_group = ThreadType.GROUP
     # exception
     self.FBchatException = FBchatException
   def error(self, message):
