@@ -14,6 +14,7 @@ async def bagong_tao(bot, event):
       await bot.shareContact(f"Welcome! {name} to the group chat", event['added_ids'][0], tid)
   except Exception as err:
     bot.error(err)
+
 config = {
   "event": "type:addedParticipants",
   "def": bagong_tao,
