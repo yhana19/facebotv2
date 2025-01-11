@@ -4,7 +4,8 @@ from fbchat_muqit import (
   Client,
   Message,
   ThreadType,
-  State
+  State,
+  FBchatException
 )
 from handler.loadConfig import loadConfig
 from handler.loadEvents import loadEvents
@@ -18,13 +19,16 @@ class Greeg(Client):
     self.commands = loadCommands(data['prefix']) # dict
     self.events = loadEvents() # list
     
+    # Bot info
     self.prefix = data['prefix']
     self.botName = data['botName']
     self.owner = data['owner']
     self.admin = data['admin']
-    
+    # Thread Type
     self.thread_user = ThreadType.USER
     self.thread_group = ThreadType.GROUP
+    # exception
+    self.FBchatException = FBchatException
   def error(self, message):
     print(f"\033[0;91m[ERROR] \033[0m{message}")
   async def onListening(self):
