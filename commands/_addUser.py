@@ -25,7 +25,7 @@ config = {
   "name": 'add',
   "author": 'Muhammad Greeg',
   "def": add_user,
-  "admin_only": True,
+  "adminOnly": True,
   "usage": '{p}add [uid/link]',
   "description": 'Add user to the thread'
 }

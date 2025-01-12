@@ -23,8 +23,9 @@ class MessageData:
     
     if self.message_object.replied_to:
       self.reply = self.message_object.replied_to
-  async def sendReply(self, message, mentions=None):
-    return await self.bot.sendMessage(message, self.thread_id, self.thread_type, mentions=mentions)
+  async def sendReply(self, message, auto_font=False, mentions=None):
+    text = self.font(message) if auto_font else message
+    return await self.bot.sendMessage(text, self.thread_id, self.thread_type, reply_to_id=self.mid, mentions=mentions)
 
 async def handleMessage(bot,mid,author_id,message,message_object,thread_id,thread_type,**kwargs):
   try:
@@ -45,7 +46,7 @@ async def handleMessage(bot,mid,author_id,message,message_object,thread_id,threa
         thread_type = thread_type
       )
       is_need_prefix = function.get('usePrefix', True)
-      is_admin_only = function.get('admin_only', False)
+      is_admin_only = function.get('adminOnly', False)
       if bot.prefix != '' and is_need_prefix and not cmd.startswith(bot.prefix):
         return await bot.sendMessage(text_formatter(":mono[This command require to use prefix]"), thread_id, thread_type)
       elif is_admin_only and str(author_id) not in bot.admin:

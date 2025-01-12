@@ -26,6 +26,8 @@ class Greeg(Client):
     self.admin = data['admin']
     # exception
     self.FBchatException = FBchatException
+    # thread type
+    self.thread_user = ThreadType.USER
   def error(self, message):
     print(f"\033[0;91m[ERROR] \033[0m{message}")
   async def onListening(self):

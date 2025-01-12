@@ -15,7 +15,7 @@ def fetch(uid):
     
     user_id = uid
     user_name = name if 'error' not in name.lower() or 'Facebook' != name else 'Facebook User'
-    print(f"\033[96m[DATABASE]\033[0m {user_id} : {user_name}")
+    print(f"\033[96m[DATABASE]\033[0m {user_id} | {user_name}")
     return {uid:user_name}
   except Exception as er:
     bot.error(er)
@@ -42,22 +42,24 @@ def trabaho(thread_id):
 
 async def function(bot, event):
   sub = event.args.lower()
+  if not sub:
+    return event.sendReply(":mono[This command dont need a parameters]", True)
   if event.thread_id in on_proccess:
     return await event.sendReply(
-      event.font(":mono[Thread is still updating.]")
+      event.font(":mono[Thread is still updating...]")
     )
   if event.thread_id != event.author_id:
-    if sub == 'update':
-      info = await bot.fetchThreadInfo(event.thread_id)
-      thread = info.get(event.thread_id)
-      on_proccess[event.thread_id] = {
-        "participants": thread.participants,
-        "admins": thread.admins
-      }
-      await event.sendReply("Thread data is updating...")
-      trabaho(event.thread_id)
+    info = await bot.fetchThreadInfo(event.thread_id)
+    thread = info.get(event.thread_id)
+    on_proccess[event.thread_id] = {
+      "participants": thread.participants,
+      "admins": thread.admins
+    }
+    await event.sendReply(":mono[Updating thread data, please wait...]",True)
+    trabaho(event.thread_id)
+    await event.sendReply(":mono[Thread data is now updated]",True)
 config = {
-  "name": 'thread',
+  "name": 'update',
   "def": function,
   "adminOnly": True
 }

@@ -10,7 +10,7 @@ async def gemini(bot, event):
       return await event.sendReply(event.font(f":mono[{res['error']}]"))
     await event.sendReply(event.font(
       ":bold[GEMINI]\n"
-      "━━━━━━━━━━━━━━━━━━━━━━━━\n"
+      f"{event.line}\n"
       f"{res['gemini']}"
     ))
   except Exception as e:
