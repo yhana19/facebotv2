@@ -42,8 +42,8 @@ def trabaho(thread_id):
 
 async def function(bot, event):
   sub = event.args.lower()
-  if not sub:
-    return event.sendReply(":mono[This command dont need a parameters]", True)
+  if sub:
+    return await event.sendReply(":mono[This command dont need a parameters]", True)
   if event.thread_id in on_proccess:
     return await event.sendReply(
       event.font(":mono[Thread is still updating...]")
