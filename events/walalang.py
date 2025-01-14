@@ -10,7 +10,7 @@ async def function(bot, data):
   elif check("greegmon") or check(' greeg '):
     return await bot.sendMessage("Wala si Gregemon, naga lulu pa", tid, typ)
   elif check('prince har'):
-    return await bot.sendMessage("No need facebook chat appilication programming interface.", tid, typ)
+    return await bot.sendMessage("No need facebook chat application programming interface.", tid, typ)
 
 config = {
   "event": 'type:message',
