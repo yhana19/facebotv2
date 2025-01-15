@@ -50,8 +50,8 @@ async def handleMessage(bot,mid,author_id,message,message_object,thread_id,threa
       if bot.prefix != '' and is_need_prefix and not cmd.startswith(bot.prefix):
         return await bot.sendMessage(text_formatter(":mono[This command require to use prefix]"), thread_id, thread_type)
       elif is_admin_only and str(author_id) not in bot.admin:
-        return await bot.sendMessage(text_formatter(":mono[Only bot admins can use this command.]"), thread_id, thread_type)
+        return await bot.sendMessage(text_formatter(":mono[You dont have permission to use this command.]"), thread_id, thread_type)
       else:
         return await function['def'](bot, message_data)
   except Exception as err:
-    print("\033[0;91m[ERROR] \033[0m{}".format(err))
+    print("\033[0;91m[ERROR][messageHandler] \033[0m{}".format(err))

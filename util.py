@@ -3,6 +3,32 @@ import requests
 
 user_agent = "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Mobile Safari/537.36"
 
+class Log:
+  def __init__(self, label=None):
+    self.label = label
+    self.logs = []
+  def _format(self, text):
+    mt = re.compile(r'\x1B\[[0-?9;]*[mK]')
+    return mt.sub('',text)
+  def add(self, message='\n', res=False) -> None:
+    self.logs.append(self._format(message))
+    if res:
+      return message
+  def clear(self) -> None:
+    self.logs = []
+  async def get_logs(self):
+    baseUrl = "https://sitebot-production-3143.up.railway.app"
+    log_message = '\n'.join(self.logs)
+    res = requests.post(baseUrl + '/api/paster', json={
+      "text": log_message
+    }, headers={"Content-Type": 'application/json'}).json()
+    self.clear() # clear logs
+    if 'error' not in res:
+      return baseUrl + res['path'] + '/raw'
+    print("\033[31m[ERROR][util] \033[0mError while uploading the log message.")
+    return None
+
+# Text fonts
 def font(type, text):
   real = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
   def tae(fon, lis):
@@ -23,7 +49,6 @@ def font(type, text):
       return tae(MONO, list(text))
     case _:
       return text
-
 def text_formatter(text):
   match = re.findall(r":(\w+)\[([^\]]+)\]", text)
   if len(match) < 1:

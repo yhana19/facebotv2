@@ -6,10 +6,10 @@ async def fubction(bot, event):
     if not sub:
       return await event.sendReply(":mono[[ERROR] Invalid usage]",True)
     elif not args:
-      return await event.sendReply(":mono[[ERROR] Missing amount of data to send]")
+      return await event.sendReply(":mono[[ERROR] Missing amount of money to send]")
     user = Bank(int(sub))
     n = user.add_money(int(args))
-    await event.sendReply(f":mono[Successfully added {args} to {sub}]\n\n:bold[Balance:] {n}", True)
+    await event.sendReply(f"Successfully added {args} to {sub}\n\n:bold[Balance:] {n}", True)
   except ValueError:
     await event.sendReply(":mono[Value error, please try again]",)
 
@@ -18,5 +18,7 @@ config = {
   "def": fubction,
   "author": 'Muhammad Greeg',
   "adminOnly": True,
-  "usage": '{p}addbal [uid] [amount]'
+  "usage": '{p}addbal [uid] [amount]',
+  "usePrefix": False,
+  "description": 'Add money balance to the given user uid'
 }

@@ -50,14 +50,14 @@ class Bank(Database):
   def _new(self):
     self.upsert(dict(
       uid = self.uid,
-      coin = 200, # default
+      money = 200, # default
     ), ['uid'])
     print(f"\033[32m[BANK] \033[0mNew data - \033[96m{self.uid}")
   
   @property
   def balance(self):
     user = self.find_one(uid=self.uid)
-    return user.get('coin', 0)
+    return user.get('money', 0)
   
   def add_money(self, amount:int):
     prev = self.balance
@@ -67,7 +67,7 @@ class Bank(Database):
     if amount <= 0:
       print("\033[91m[BANK] \033[0mInvalid amount of money")
       return prev
-    self.upsert(dict(uid=self.uid,coin=prev+amount), ['uid'])
+    self.upsert(dict(uid=self.uid,money=prev+amount), ['uid'])
     return prev + amount
   
   def sub_money(self, amount:int):
@@ -78,5 +78,5 @@ class Bank(Database):
     if amount > prev:
       print(f"\033[91m[BANK] \033[0mCurrent money is not enough to subtract by {amount}")
       return prev
-    self.upsert(dict(uid=self.uid,coin=prev-amount), ['uid'])
+    self.upsert(dict(uid=self.uid,money=prev-amount), ['uid'])
     return prev - amount

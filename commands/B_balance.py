@@ -9,5 +9,8 @@ async def function(bot, event):
 config = {
   "name": 'bal',
   "def": function,
-  "author": 'Muhammad Greegmon'
+  "author": 'Muhammad Greegmon',
+  "description": "Get the current money balance",
+  "usage": '{p}bal',
+  "usePrefix": False
 }
