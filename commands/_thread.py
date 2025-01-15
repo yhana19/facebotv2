@@ -18,9 +18,7 @@ def fetch(uid):
     print(f"\033[96m[DATABASE]\033[0m {user_id} | {user_name}")
     return {uid:user_name}
   except Exception as er:
-    bot.error(er)
-  except requests.exceptions.RequestException as e:
-    bot.error(e)
+    print("\033[31m[ERROR] \033[0m{}".format(er))
 
 def trabaho(thread_id):
   db = Thread(thread_id)
