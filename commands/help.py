@@ -61,7 +61,7 @@ config = {
   "def": function,
   "author": 'Muhammad Greeg',
   "usePrefix": False,
-  "adminOnly": True,
+  "adminOnly": False,
   "description": "Show the bot available commands",
   "usage": '{p}help [<None>|<page>|<cmd name>|all]'
 }

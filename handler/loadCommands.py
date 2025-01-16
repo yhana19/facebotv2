@@ -16,28 +16,32 @@ def loadCommands(_prefix):
     if config:
       name = config.get('name')
       function = config.get('def')
+      if config.get('function'):
+        function = config.get('function')
+        config['def'] = config.get('function')
+        del config['function']
       if not name:
-        print(f"\033[91m[COMMAND]\033[0m({file}) NOT LOADED - \033[0;31mMissing command name")
+        print(f"\033[31m[COMMAND]\033[0m{file} NOT LOADED - Missing command name")
       elif not function:
-        print(f"\033[91m[COMMAND]\033[0m({file}) NOT LOADED - \033[0;31mMissing command function")
+        print(f"\033[31m[COMMAND]\033[0m{file} NOT LOADED - Missing command function")
       else:
         usePrefix = config.get('usePrefix', True)
         if not name.isalnum():
-          print(f"\033[91m[COMMAND]\033[0m({file}) NOT LOADED - \033[0;31mInvalid command name")
+          print(f"\033[31m[COMMAND]\033[0m{file} NOT LOADED - Invalid command name")
         elif name.lower() in commands:
-          print(f"\033[91m[COMMAND]\033[0m({file}) NOT LOADED - \033[0;31mCommand name already exist")
+          print(f"\033[31m[COMMAND]\033[0m{file} NOT LOADED - Command name already exist")
         elif usePrefix not in [True, False]:
-          print(f"\033[91m[COMMAND]\033[0m({file}) NOT LOADED - \033[0;31mInvalid usePrefix value")
+          print(f"\033[31m[COMMAND]\033[0m{file} NOT LOADED - Invalid usePrefix value")
         else:
           admin_only = config.get('admin_only', False)
           if not admin_only in [True,False]:
             admin_only = False
-            print(f"\033[0m   - Invalid 'admin_only' key in config, It will automatically set to False")
+            print(f"\033[0m   - Invalid 'adminOnly' key in config, It will automatically set to False")
           config['admin_only'] = admin_only if admin_only in [True, False] else False
           
           config["usage"] = config.get("usage", "").replace('{p}', _prefix)
           config["description"] = config.get("description", 'No description.').replace('{p}', _prefix)
           commands[name.lower()] = config
-          print(f"\033[96m[COMMAND] \033[0mLOADED \033[0;93m{name} \033[0m- \033[35m({file})\033[0m")
+          print(f"\033[36m[COMMAND] \033[0mLOADED \033[33m{name} \033[0m- \033[35m({file})\033[0m")
   print()
   return commands
