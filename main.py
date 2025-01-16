@@ -21,7 +21,7 @@ class Greeg(Client):
     self.events = loadEvents() # list
     # Bot info
     self.prefix = data['prefix']
-    self.botName = data['botName']
+    self.name = data['botName']
     self.owner = data['owner']
     self.admin = data['admin']
     # exception
